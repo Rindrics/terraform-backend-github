@@ -7,8 +7,8 @@ For Terraform environment with `local` type backend configuration, this action d
 
 ### Required
 
-- `token`: GitHub Token
 - `state_repo`: Repository containing Terraform state file
+- `token`: GitHub Token which has `read and write` permission for `state_repo`
 - `action`: Action to perform, 'download' or 'upload'
 - `sha`: 'SHA of the state file to be overwritten by upload action (required for upload)'
 
