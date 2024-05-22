@@ -7,6 +7,12 @@ inputs:
   state_repo:
     description: 'Repository containing the Terraform state file'
     required: true
+  action:
+    description: 'Action to perform (download or upload)'
+    required: true
+  sha:
+    description: 'SHA of the state file to be overwritten by upload action (required for upload)'
+    required: false
   state_path_remote:
     description: 'Path to the Terraform state file in `state_repo`'
     required: false
@@ -15,13 +21,7 @@ inputs:
     description: 'Path to the Terraform state file in GitHub Actions environment'
     required: false
     default: 'terraform.tfstate'
-  action:
-    description: 'Action to perform (download or upload)'
-    required: true
-  sha:
-    description: 'SHA of the state file (required for upload)'
-    required: false
-  message:
+  commit_message:
     description: 'Commit message for the upload action'
     required: false
     default: 'Update state file'
@@ -69,7 +69,7 @@ runs:
             exit 1
           fi
           CONTENT=$(base64 ${{ inputs.state_path_local }} | tr -d '\n')
-          jq -n --arg msg "${{ inputs.message }}" --arg name "${{ inputs.committer_name }}" --arg email "${{ inputs.committer_email }}" --arg content "$CONTENT" --arg sha "${{ inputs.sha }}" '{message: $msg, committer: {name: $name, email: $email}, content: $content, sha: $sha}' > payload.json
+          jq -n --arg msg "${{ inputs.commit_message }}" --arg name "${{ inputs.committer_name }}" --arg email "${{ inputs.committer_email }}" --arg content "$CONTENT" --arg sha "${{ inputs.sha }}" '{message: $msg, committer: {name: $name, email: $email}, content: $content, sha: $sha}' > payload.json
           curl -L \
             -X PUT \
             -H "Accept: application/vnd.github+json" \
