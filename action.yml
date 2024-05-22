@@ -1,5 +1,8 @@
 name: 'Terraform Backend Action'
 description: 'Download or upload Terraform state file from/to GitHub repository'
+branding:
+  icon: 'anchor'
+  color: 'purple'
 inputs:
   token:
     description: 'GitHub Token'
