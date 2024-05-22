@@ -22,7 +22,7 @@ For Terraform environment with `local` type backend configuration, this action d
 
 ## Outputs
 
-- `sha`: SHA of the state file
+- `sha`: SHA of the original state file to use in 'upload' action
 
 ## Example usage
 
