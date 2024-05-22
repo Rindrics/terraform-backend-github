@@ -6,7 +6,6 @@ This action downloads and uploads Terraform state file from a specified GitHub r
 
 - `token`: GitHub Token
 - `state_repo`: Repository containing Terraform state file
-- `state_path`: Path to the Terraform state file in `state_repo`
 - `action`: Action to perform, 'download' or 'upload'
 
 ## Outputs
