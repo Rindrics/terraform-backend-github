@@ -1,6 +1,7 @@
 # terraform-backend-github
 
-This action downloads and uploads Terraform state file from a specified GitHub repository.
+This action enables to use GitHub repo as Terraform backend.
+For Terraform environment with `local` type backend configuration, this action downloads and uploads Terraform state file from a specified GitHub repository.
 
 ## Inputs
 
