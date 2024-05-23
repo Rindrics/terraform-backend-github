@@ -45,11 +45,13 @@ runs:
   steps:
     - name: Extract working directory from `state_path_local`
       id: extract_workdir
+      shell: bash
       run: |
         workdir=$(dirname "${{ inputs.state_path_local }}")
         echo "workdir=$workdir" >> $GITHUB_ENV
 
     - name: Check if Terraform env is initialized
+      shell: bash
       run: |
         if [ ! -d "${{ env.workdir }}/.terraform" ]; then
           echo "Error: Terraform has not been initialized. Please run 'terraform init' at `${{ env.workdir }}` before this action." >&2
@@ -57,6 +59,7 @@ runs:
         fi
 
     - name: Perform action
+      shell: bash
       run: |
         if [ "${{ inputs.action }}" = "download" ]; then
           curl -L \
