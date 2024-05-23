@@ -56,7 +56,7 @@ runs:
           exit 1
         fi
 
-  - name: Perform action
+    - name: Perform action
       run: |
         if [ "${{ inputs.action }}" = "download" ]; then
           curl -L \
