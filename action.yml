@@ -39,6 +39,7 @@ inputs:
 outputs:
   sha:
     description: 'SHA of the state file (only for download)'
+    value: ${{ steps.handle-state-file.outputs.sha }}
 
 runs:
   using: 'composite'
@@ -59,6 +60,7 @@ runs:
         fi
 
     - name: Perform action
+      id: handle-state-file
       shell: bash
       run: |
         if [ "${{ inputs.action }}" = "download" ]; then
