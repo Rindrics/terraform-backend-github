@@ -77,6 +77,7 @@ runs:
             echo "sha=$(jq -r '.sha' ${{ inputs.state_path_local }}.response)" >> $GITHUB_OUTPUT
           elif [ "$HTTP_CODE" -eq 404 ]; then
             echo "File not found, skipping download."
+            echo "sha=initial_apply" >> $GITHUB_OUTPUT
           else
             echo "Error: Received HTTP code $HTTP_CODE" >&2
             exit 1
@@ -87,7 +88,16 @@ runs:
             exit 1
           fi
           CONTENT=$(base64 ${{ inputs.state_path_local }} | tr -d '\n')
-          jq -n --arg msg "${{ inputs.commit_message }}" --arg name "${{ inputs.committer_name }}" --arg email "${{ inputs.committer_email }}" --arg content "$CONTENT" --arg sha "${{ inputs.sha }}" '{message: $msg, committer: {name: $name, email: $email}, content: $content, sha: $sha}' > payload.json
+          jq -n --arg msg "${{ inputs.commit_message }}" \
+            --arg name "${{ inputs.committer_name }}" \
+            --arg email "${{ inputs.committer_email }}" \
+            --arg content "$CONTENT" \
+            --arg sha "${{ inputs.sha }}" \
+            '{
+              message: $msg,
+              committer: {name: $name, email: $email},
+              content: $content
+            } + (if $sha != "initial_apply" then {sha: $sha} else {} end)' > payload.json
           curl -L \
             -X PUT \
             -H "Accept: application/vnd.github+json" \
